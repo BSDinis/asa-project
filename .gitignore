@@ -1,0 +1,5 @@
+*.o
+*.myout
+.*.swp
+vgcore*
+autodep
