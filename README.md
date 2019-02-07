@@ -1,6 +1,5 @@
----
-title: graphlib
----
+graphlib
+========
 
 Copyright (C) Afonso Ribeiro & Baltasar Dinis
 
