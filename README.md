@@ -1,6 +1,8 @@
-#graphlib
+---
+title: graphlib
+---
 
-Copyright (C) Tiago Antunes & Baltasar Dinis
+Copyright (C) Afonso Ribeiro & Baltasar Dinis
 
 ## Purpose
 
