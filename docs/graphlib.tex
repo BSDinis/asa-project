@@ -1,0 +1,104 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[a4paper, twoside]{article}
+
+\usepackage{fancyhdr} 
+\usepackage{lastpage} 
+\usepackage{extramarks} 
+\usepackage[usenames,dvipsnames]{color} 
+\usepackage{graphicx} 
+\usepackage{listings} 
+\usepackage{courier} 
+\usepackage[utf8]{inputenc}
+\usepackage{scrextend}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{charter}
+\usepackage[colorlinks = true, linkcolor = blue, urlcolor  = blue, citecolor = blue, anchorcolor = blue]{hyperref}
+\usepackage{charter}
+
+
+
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1} 
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{} 
+\fancyhead[C]{\Topic} 
+\fancyhead[R]{\leftmark} 
+\fancyfoot[RO,LE]{\thepage} 
+\fancyfoot[C]{\AuthorName} 
+\renewcommand\headrulewidth{0.4pt} 
+\renewcommand\footrulewidth{0.4pt} 
+ 
+\setlength\parindent{0pt} 
+
+%----------------------------------------------------------------------------------------
+%	NAME AND CLASS SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\Title}{Graphlib} 
+\newcommand{\SubTitle}{A flexible and efficient library to handle graphs} 
+\newcommand{\AuthorName}{Baltasar Dinis \& Tiago Antunes} 
+\newcommand{\Topic}{Documentation} 
+
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+\newcommand{\then}{\Rightarrow}
+\newcommand{\equ}{\Leftrightarrow}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{
+\vspace{2in}
+{\Huge \textsc \Title }\\
+\textmd{\textbf{\SubTitle}}\\
+\normalsize\vspace{0.1in}\small{\today}\\
+\vspace{3in}
+\large{\Topic}\\
+}
+
+\author{\textbf{\AuthorName}}
+\date{} 
+
+%----------------------------------------------------------------------------------------
+
+
+ 
+
+\begin{document}
+\maketitle
+
+\thispagestyle{empty}
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+%\setcounter{tocdepth}{1} 
+
+\newpage
+\tableofcontents
+\newpage
+
+\input{overview.tex}
+\input{interfaces.tex}
+\input{node.tex}
+\input{listgraph.tex}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
