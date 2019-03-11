@@ -4,25 +4,30 @@
  * implementation
  */
 
-#include "router_factory.hpp"
+#include "network_factory.hpp"
 
-namespace graph
+namespace network
 {
-  graph<router_id> create_network(const std::string &filename)
+  using namespace graph;
+  network_t create_network(const std::string &filename)
   {
-    ifstream in{filename};
-    return create_router(in);
+    std::ifstream in{filename};
+    return create_network(in);
   }
 
-  graph<router_id> create_router(std::istream &in)
+  network_t create_network(std::istream &in)
   {
     ssize_t n, m;
-    if (! (in >> n >> m) ) {
-      std::cerr << "create_router: failed to get n and m\n";
+    if (!(in >> n)) {
+      std::cerr << "create_router: failed to get n\n";
+      exit(EXIT_FAILURE);
+    }
+    if (!(in >> m)) {
+      std::cerr << "create_router: failed to get m\n";
       exit(EXIT_FAILURE);
     }
 
-    graph<router_id> network{n};
+    network_t net{n};
     for (ssize_t i = 0; i < m; i++) {
       int u, v;
       if (! (in >> u >> v) ) {
@@ -40,19 +45,22 @@ namespace graph
         exit(EXIT_FAILURE);
       }
 
-      if (u >= network.n_vertices()) {
-        network.add_vertex(0);
+      while (u >= net.n_vertices()) {
+        net.add_vertex(0);
       }
-      if (v >= network.n_vertices()) {
-        network.add_vertex(0);
+      while (v >= net.n_vertices()) {
+        net.add_vertex(0);
       }
 
-      if (!network.add_biedge(u, v)) {
+      if (!net.add_biedge(u, v)) {
         std::cerr << "create_router: line [" << i + 1 << "]: failed to create bidirectional edge from " << u + 1 << "to " << v + 1 <<"\n";
+        std::cerr << "n_vertices: " << net.n_vertices() << '\n';
+        std::cerr << "u: " << u << '\n';
+        std::cerr << "v: " << v << '\n';
         exit(EXIT_FAILURE);
       }
     }
 
-    return network;
+    return net;
   }
 }

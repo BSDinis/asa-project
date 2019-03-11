@@ -18,7 +18,9 @@ namespace graph {
 
     public:
       graph();
-      graph(int n) : nodes{n}, adj{n, std::vector<bool>(n)} {}
+      graph(int n) : nodes{n}, adj{static_cast<size_t>(n), std::vector<bool>(n)} {}
+      graph(ssize_t n) : graph{static_cast<int>(n)} {}
+      graph(size_t n) : graph{static_cast<int>(n)} {}
       // graph(std::vector<T> nodes);
       ~graph() = default;
 

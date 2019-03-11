@@ -4,13 +4,14 @@
  * create router from input file
  */
 
-#include <iostream>
-#include <fstream>
 #include "graph.hpp"
+#include <fstream>
+#include <iostream>
 
-namespace graph
+namespace network
 {
   using router_id = int;
-  graph<router_id> create_router(std::string filename);
-  graph<router_id> create_router(std::istream &in);
+  using network_t = graph::graph<router_id>;
+  network_t create_network(std::string filename);
+  network_t create_network(std::istream &in);
 }
