@@ -3,3 +3,4 @@
 .*.swp
 vgcore*
 autodep
+test/basic_func/basic_func

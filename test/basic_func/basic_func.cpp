@@ -23,24 +23,24 @@ const int n_biedges_to_rem = 6;
 
 // add vertices
 template <typename T>
-void test_1(graph<T> &g);
+void test_1(graph::graph<T> &g);
 
 // add edges
 template <typename T>
-void test_2(graph<T> &g);
+void test_2(graph::graph<T> &g);
 
 // return vertices
 template <typename T>
-void test_3(graph<T> &g);
+void test_3(graph::graph<T> &g);
 
 // remove edges
 template <typename T>
-void test_4(graph<T> &g);
+void test_4(graph::graph<T> &g);
 
 
 int main()
 {
-  graph<int> g;
+  graph::graph<int> g;
   std::srand(std::time(NULL));
 
   test_1(g);
@@ -53,7 +53,7 @@ int main()
 
 
 template <typename T>
-void test_1(graph<T> &g)
+void test_1(graph::graph<T> &g)
 {
   std::cout << g;
   for (int i = 0; i < n_vertices; i++)
@@ -61,7 +61,7 @@ void test_1(graph<T> &g)
 }
 
 template <typename T>
-void test_2(graph<T> &g)
+void test_2(graph::graph<T> &g)
 {
   std::cout << g;
   for (int i = 0; i < n_edges_to_add; i++)
@@ -72,7 +72,7 @@ void test_2(graph<T> &g)
 }
 
 template <typename T>
-void test_3(graph<T> &g)
+void test_3(graph::graph<T> &g)
 {
   std::cout << g;
   for (int i = 0; i < n_vertices; i++)
@@ -80,7 +80,7 @@ void test_3(graph<T> &g)
 }
 
 template <typename T>
-void test_4(graph<T> &g)
+void test_4(graph::graph<T> &g)
 {
   std::cout << g;
   for (int i = 0; i < n_edges_to_rem; i++)
