@@ -12,13 +12,13 @@
 namespace graph {
   template <typename T>
   class graph {
-    int edges;
+    int edges = 0;
     std::vector<T> nodes;
     std::vector<std::vector<bool>> adj;
 
     public:
       graph();
-      graph(int n) : nodes{n}, adj{static_cast<size_t>(n), std::vector<bool>(n)} {}
+      graph(int n) : nodes(n), adj{static_cast<size_t>(n), std::vector<bool>(n)} { std::cout << nodes.size() << " " << n << "\n ";}
       graph(ssize_t n) : graph{static_cast<int>(n)} {}
       graph(size_t n) : graph{static_cast<int>(n)} {}
       // graph(std::vector<T> nodes);
@@ -35,6 +35,7 @@ namespace graph {
       const T& get_vertex(int index) const;
       int n_vertices() const;
       int n_edges() const;
+
       friend std::ostream & operator<<(std::ostream &os, const graph<T> &g) {
         int edge = 0;
         int n_vertices = g.nodes.size();
@@ -45,7 +46,7 @@ namespace graph {
             }
           }
         }
-        return os << n_vertices << " vertices\n";
+        return os << n_vertices << " " << g.n_edges() << " vertices\n";
       }
   };
 
