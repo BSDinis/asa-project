@@ -11,7 +11,7 @@ TARGET  := input_test
 
 all: $(TARGET)
 
-$(TARGET): $(OBJECTS) graph.hpp network_factory.o
+$(TARGET): $(OBJECTS) graph.hpp node.hpp network_factory.o
 
 .PHONY: clean
 clean:

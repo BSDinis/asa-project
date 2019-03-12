@@ -18,7 +18,7 @@ namespace graph {
 
     public:
       graph();
-      graph(int n) : nodes(n), adj{static_cast<size_t>(n), std::vector<bool>(n)} { std::cout << nodes.size() << " " << n << "\n ";}
+      graph(int n) : nodes(n), adj{static_cast<size_t>(n), std::vector<bool>(n)} {}
       graph(ssize_t n) : graph{static_cast<int>(n)} {}
       graph(size_t n) : graph{static_cast<int>(n)} {}
       // graph(std::vector<T> nodes);
@@ -29,10 +29,12 @@ namespace graph {
       bool rem_edge(const int from, const int to);
       bool rem_biedge(const int a, const int b);
 
+      std::vector<int> get_adjacents(int index) const;
+
       int add_vertex(T && vertex);
       int add_vertex(T & vertex);
 
-      const T& get_vertex(int index) const;
+      /*const*/ T& get_vertex(int index) /*const*/;
       int n_vertices() const;
       int n_edges() const;
 
@@ -46,12 +48,12 @@ namespace graph {
             }
           }
         }
-        return os << n_vertices << " " << g.n_edges() << " vertices\n";
+        return os << n_vertices << " vertices\n";
       }
   };
 
   /***
-   * implementationc
+   * implementations
    */
 
   template<typename T>
@@ -101,6 +103,18 @@ namespace graph {
   }
 
   template<typename T>
+  std::vector<int> graph<T>::get_adjacents(int index) const
+  {
+  	std::vector<int> adjacents;
+  	
+  	for ( int i = 0; i < n_vertices(); ++i )
+  		if ( adj[index][i] )
+  			adjacents.emplace_back( i );
+
+  	return adjacents;
+  }
+
+  template<typename T>
   int graph<T>::add_vertex(T & vertex)
   {
     nodes.emplace_back(vertex);
@@ -116,7 +130,7 @@ namespace graph {
   int graph<T>::add_vertex(T && vertex) { return add_vertex(vertex); }
 
   template<typename T>
-  const T& graph<T>::get_vertex(int index) const { return nodes[index]; }
+  /*const*/ T& graph<T>::get_vertex(int index) /*const*/ { return nodes[index]; }
 
   template<typename T>
   int graph<T>::n_vertices() const { return nodes.size(); }
