@@ -45,12 +45,14 @@ namespace network
         exit(EXIT_FAILURE);
       }
 
+/* will never happen
       while (u >= net.n_vertices()) {
         net.add_vertex(0);
       }
       while (v >= net.n_vertices()) {
         net.add_vertex(0);
       }
+*/
 
       if (!net.add_biedge(u, v)) {
         std::cerr << "create_router: line [" << i + 1 << "]: failed to create bidirectional edge from " << u + 1 << "to " << v + 1 <<"\n";
