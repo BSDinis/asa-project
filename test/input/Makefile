@@ -13,6 +13,7 @@ all: $(TARGET)
 
 $(TARGET): $(OBJECTS) network.o
 
+
 .PHONY: clean
 clean:
 	rm -f $(OBJECTS) $(TARGET) vgcore*

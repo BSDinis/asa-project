@@ -4,4 +4,3 @@
  * implementation
  */
 
-#include "network_factory.hpp"
