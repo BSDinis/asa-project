@@ -6,10 +6,14 @@ std::vector<int> neighbour_routers(
 
 std::vector<std::vector<int>> dfs(const network &net);
 
+std::vector<std::vector<int>> dfs_tarjan(
+    const network &net,
+    std::vector<int> &articulation_pts
+    );
+
 std::vector<std::vector<int>> dfs(
     const network &net,
-    const ssize_t root,
-    std::vector<int> &articulation_pts
+    std::vector<int> &removed_pts
     );
 
 std::vector<int> neighbour_routers(
