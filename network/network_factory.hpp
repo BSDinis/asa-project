@@ -5,9 +5,3 @@
  */
 #pragma once
 
-#include "network.hpp"
-#include <fstream>
-#include <iostream>
-
-network create_network(std::string filename);
-network create_network(std::istream &in);

@@ -1,5 +1,4 @@
 #include "network.hpp"
-
 #include <iostream>
 #include <vector>
 
@@ -9,7 +8,6 @@ int main()
 {
   network n = create_network(std::cin);
   std::cout << n;
-  network_t net = create_network(std::cin);
   
   int n_sub_nets = 0;
   std::vector<int> id_sub_net;
@@ -36,8 +34,6 @@ int main()
   std::cout << std::endl; 
 
 }
-
-/* DFS */
 void visit( network & net, int vertex, int* subnet_maxid )
 {
 	net.get_vertex(vertex).set_grey();

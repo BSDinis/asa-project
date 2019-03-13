@@ -10,9 +10,7 @@ TARGET  := input_test
 
 
 all: $(TARGET)
-
-$(TARGET): $(OBJECTS) network.o
-
+$(TARGET): $(OBJECTS) graph.hpp node.hpp network_factory.o
 
 .PHONY: clean
 clean:
