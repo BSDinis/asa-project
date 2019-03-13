@@ -1,7 +1,4 @@
-#include "graph.hpp"
-#include "node.hpp"
-#include "network_factory.hpp"
-
+#include "network.hpp"
 #include <iostream>
 #include <vector>
 
@@ -9,8 +6,8 @@ void visit( network::network_t & net, int vertex, int* subnet_maxid );
 
 int main()
 {
-  using namespace network;
-  network_t net = create_network(std::cin);
+  network n = create_network(std::cin);
+  std::cout << n;
   
   int n_sub_nets = 0;
   std::vector<int> id_sub_net;
@@ -37,9 +34,7 @@ int main()
   std::cout << std::endl; 
 
 }
-
-/* DFS */
-void visit( network::network_t & net, int vertex, int* subnet_maxid )
+void visit( network & net, int vertex, int* subnet_maxid )
 {
 	net.get_vertex(vertex).set_grey();
 
