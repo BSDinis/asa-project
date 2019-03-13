@@ -2,28 +2,28 @@
 #include <iostream>
 #include <vector>
 
-void visit( network::network_t & net, int vertex, int* subnet_maxid );
+enum class colour { white = 0, grey, black };
+
+void dfs_visit(const network & net,
+    std::vector<colour> & node,
+    const int node_id,
+    int &subnet_maxid );
 
 int main()
 {
-  network n = create_network(std::cin);
-  std::cout << n;
-  
+  network net = create_network(std::cin);
+  std::cout << net;
+
   int n_sub_nets = 0;
   std::vector<int> id_sub_net;
+  std::vector<colour> node_colour(net.n_nodes(), colour::white);
 
-  int i;
-  for ( i=0; i < net.n_vertices() ; ++i)
-  	net.get_vertex(i).set_white();
-
-  for ( i=0; i < net.n_vertices() ; ++i)
-  {
-  	if ( net.get_vertex(i).is_white() )
-  	{
+  for (int i = 0; i < net.n_nodes() ; ++i) {
+  	if (node_colour[i] == colour::white ) {
   		int subnet_maxid = i;
-  		visit( net, i, &subnet_maxid );
+  		dfs_visit(net, node_colour, i, subnet_maxid );
   		n_sub_nets++;
-  		id_sub_net.emplace_back(subnet_maxid);
+  		id_sub_net.push_back(subnet_maxid);
   	}
   }
 
@@ -31,19 +31,25 @@ int main()
   for (int i = 0; i < (int)id_sub_net.size(); i++)
   	std::cout << id_sub_net[i]+1 << " ";
 
-  std::cout << std::endl; 
+  std::cout << std::endl;
 
 }
-void visit( network & net, int vertex, int* subnet_maxid )
+void dfs_visit(const network & net,
+    std::vector<colour> & node_colour,
+    const int node_id,
+    int &subnet_maxid )
 {
-	net.get_vertex(vertex).set_grey();
+  node_colour[node_id] = colour::grey;
 
-	for ( int node : net.get_adjacents(vertex) )
-		if ( net.get_vertex(node).is_white() )
-		{
-			if ( *subnet_maxid < node ) *subnet_maxid = node;
-			visit( net, node, subnet_maxid );
-		}
+  std::vector<int> adjacents = neighbour_routers(net, node_id);
+  for ( int adj_id : adjacents ) {
+    if ( node_colour[adj_id] == colour::white ) {
+      if ( subnet_maxid < node_id )
+        subnet_maxid = node_id;
 
-	net.get_vertex(vertex).set_black();
+      dfs_visit( net, node_colour, adj_id, subnet_maxid );
+    }
+  }
+
+  node_colour[node_id] = colour::black;
 }

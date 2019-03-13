@@ -1,6 +1,6 @@
 CC := g++
-VPATH := .:../../graph:../../network
-INCLUDES := -I. -I../../graph -I../../network
+VPATH := .:../../network
+INCLUDES := -I. -I../../network
 CXXFLAGS := -Wall -Werror -g -fdiagnostics-color=always $(INCLUDES)
 LDFLAGS := -Wall -Werror -fdiagnostics-color=always $(INCLUDES) -L. -L../../graph -L../../network
 
@@ -10,7 +10,7 @@ TARGET  := input_test
 
 
 all: $(TARGET)
-$(TARGET): $(OBJECTS) graph.hpp node.hpp network_factory.o
+$(TARGET): $(OBJECTS) network.o
 
 .PHONY: clean
 clean:

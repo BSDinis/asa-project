@@ -97,3 +97,15 @@ network create_network(std::istream &in)
 
   return net;
 }
+
+std::vector<int> neighbour_routers(const network &net, const int node)
+{
+  std::vector<int> res;
+  ssize_t nnodes = net.n_nodes();
+  if (node < 0 || node >= nnodes) return res;
+  for (int i = 0; i < nnodes; i++)
+    if (net.has_link(i, node))
+      res.push_back(i);
+
+  return res;
+}
