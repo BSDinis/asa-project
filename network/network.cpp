@@ -30,7 +30,7 @@ std::ostream & operator<<(std::ostream &os, const network &n)
   for (ssize_t u = 1; u < nnodes; u++)
     for (ssize_t v = 0; v < u; v++)
       if (n.has_link(u, v))
-        os << "[" << lineno++ << "] : (" << u << ") <-=-> (" << v << ")\n";
+        os << "[" << lineno++ << "] : (" << u+1 << ") <-=-> (" << v+1 << ")\n";
 
   return os << nnodes << " nodes\n" << n.n_links() << " links\n";
 }
@@ -79,13 +79,6 @@ network create_network(std::istream &in)
       exit(EXIT_FAILURE);
     }
 
-    while (u >= net.n_nodes()) {
-      net.add_node();
-    }
-    while (v >= net.n_nodes()) {
-      net.add_node();
-    }
-
     if (!net.add_link(u, v)) {
       std::cerr << "create_router: line [" << i + 1 << "]: failed to create link from " << u + 1 << "to " << v + 1 <<"\n";
       std::cerr << "n_vertices: " << net.n_nodes() << '\n';
@@ -96,4 +89,59 @@ network create_network(std::istream &in)
   }
 
   return net;
+}
+
+std::vector<int> neighbour_routers(const network &net, const int node)
+{
+  std::vector<int> res;
+  ssize_t nnodes = net.n_nodes();
+  if (node < 0 || node >= nnodes) return res;
+  for (int i = 0; i < nnodes; i++)
+    if (net.has_link(i, node))
+      res.push_back(i);
+
+  return res;
+}
+
+
+static void dfs_visit(const network &net,
+    std::vector<network::colour> &node_colour,
+    std::vector<int> &tree,
+    const int init_node);
+
+std::vector<std::vector<int>> dfs(const network &net)
+{
+  using colour=network::colour;
+  using std::vector;
+  vector<vector<int>> forest;
+  vector<colour> node_colour(net.n_nodes(), colour::white);
+
+  ssize_t nnodes = net.n_nodes();
+  for (int i = 0; i < nnodes; i++) {
+    if (node_colour[i] != colour::white) continue;
+    vector<int> tree = {i};
+    dfs_visit(net, node_colour, tree, i);
+    forest.push_back(tree);
+  }
+
+  return forest;
+}
+
+static void dfs_visit(const network &net,
+    std::vector<network::colour> &node_colour,
+    std::vector<int> &tree,
+    const int init_node)
+{
+  using colour=network::colour;
+  using std::vector;
+  node_colour[init_node] = colour::grey;
+  std::vector<int> adjacents = neighbour_routers(net, init_node);
+  for (int adj_id : adjacents) {
+    if ( node_colour[adj_id] == colour::white ) {
+      tree.push_back(adj_id);
+      dfs_visit(net, node_colour, tree, adj_id);
+    }
+  }
+
+  node_colour[init_node] = colour::black;
 }

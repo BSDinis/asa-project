@@ -6,3 +6,4 @@ autodep
 test/basic_func/basic_func
 test/net_basic_func/net_basic_func
 test/input/input_test
+solver
