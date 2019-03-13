@@ -1,11 +1,8 @@
-#include "graph.hpp"
-#include "network_factory.hpp"
-
+#include "network.hpp"
 #include <iostream>
 
 int main()
 {
-  using namespace network;
-  network_t n = create_network(std::cin);
+  network n = create_network(std::cin);
   std::cout << n;
 }

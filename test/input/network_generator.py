@@ -23,10 +23,12 @@ while i < m:
     u = random.choice(l)
     del(l[u]);
     v = random.choice(l)
-    if (u > v):
-        u, v = u, v;
 
-    pair = (u, v)
+    if (u > v):
+        pair = (v, u)
+    else:
+        pair = (u, v)
+
     if pair not in connections:
         print(f"{u+1} {v+1}")
         connections.append(pair)
