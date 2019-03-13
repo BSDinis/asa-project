@@ -30,7 +30,7 @@ std::ostream & operator<<(std::ostream &os, const network &n)
   for (ssize_t u = 1; u < nnodes; u++)
     for (ssize_t v = 0; v < u; v++)
       if (n.has_link(u, v))
-        os << "[" << lineno++ << "] : (" << u << ") <-=-> (" << v << ")\n";
+        os << "[" << lineno++ << "] : (" << u+1 << ") <-=-> (" << v+1 << ")\n";
 
   return os << nnodes << " nodes\n" << n.n_links() << " links\n";
 }
