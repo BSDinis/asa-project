@@ -45,11 +45,6 @@ class network {
 };
 
 std::ostream & operator<<(std::ostream &os, const network &n);
-
 network create_network(const std::string &filename);
-
 network create_network(std::istream &in);
 
-std::vector<int> neighbour_routers(const network &net, const int node);
-
-std::vector<std::vector<int>> dfs(const network &net);
