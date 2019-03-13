@@ -1,12 +1,12 @@
 CC := g++
-VPATH := .:../../network
-INCLUDES := -I. -I../../network
+VPATH := .:network
+INCLUDES := -I. -Inetwork
 CXXFLAGS := -Wall -Werror -g -fdiagnostics-color=always $(INCLUDES)
 LDFLAGS := -Wall -Werror -fdiagnostics-color=always $(INCLUDES) -L. -L../../graph -L../../network
 
 SOURCES=$(wildcard *.cpp) network.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-TARGET =input_test
+TARGET =solver
 
 
 all: $(TARGET)

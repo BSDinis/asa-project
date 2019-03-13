@@ -19,10 +19,11 @@ class network {
   }
 
   public:
+    enum class colour { white = 0, grey, black, green, red };
     network() : network{32} {}
     network(int n) :
       nlinks{0},  // no links
-      nnodes{0},  // n nodes
+      nnodes{n},  // n nodes
       links(static_cast<size_t>(n * (n - 1) / 2), false) // reserve space for needed links
     {}
 
@@ -39,12 +40,16 @@ class network {
     }
 
     int add_node();
-
     inline int n_nodes() const { return nnodes; }
     inline int n_links() const { return nlinks; }
 };
 
 std::ostream & operator<<(std::ostream &os, const network &n);
+
 network create_network(const std::string &filename);
+
 network create_network(std::istream &in);
+
 std::vector<int> neighbour_routers(const network &net, const int node);
+
+std::vector<std::vector<int>> dfs(const network &net);
