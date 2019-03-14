@@ -14,16 +14,16 @@ all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
 
-test: log_test $(TARGET)
+test: $(TARGET)
 	date >> tests.log
 	./network_generator.py | tee test$(shell cat tests.log | wc -l).in | ./$(TARGET) | tee test$(shell cat tests.log | wc -l).out ; cat test$(shell cat tests.log | wc -l).in
 
 correctness: $(TARGET)
-	for input in test0*.in ; do \
+	for input in test*.in ; do \
 	  ./$(TARGET) < $$input > $${input%.in}.outhyp ; \
 	  echo "./$(TARGET) < $$input > $${input%.in}.outhyp" ; \
 	  done
-	for output in test0*.out ; do \
+	for output in test*.out ; do \
 	  diff $$output $${output%.out}.outhyp ; \
 	  done
 

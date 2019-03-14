@@ -31,7 +31,7 @@ int main()
   }
 
 #ifdef DEBUG
-  std::cout << "[sub net ids]";
+  std::cout << " [sub net ids]";
 #endif
   std::cout << '\n';
 
