@@ -19,11 +19,11 @@ test: $(TARGET)
 	./network_generator.py | tee test$(shell cat tests.log | wc -l).in | ./$(TARGET) | tee test$(shell cat tests.log | wc -l).out ; cat test$(shell cat tests.log | wc -l).in
 
 correctness: $(TARGET)
-	for input in test*.in ; do \
+	for input in test0*.in ; do \
 	  ./$(TARGET) < $$input > $${input%.in}.outhyp ; \
 	  echo "./$(TARGET) < $$input > $${input%.in}.outhyp" ; \
 	  done
-	for output in test*.out ; do \
+	for output in test0*.out ; do \
 	  diff $$output $${output%.out}.outhyp ; \
 	  done
 
