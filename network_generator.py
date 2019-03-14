@@ -3,8 +3,8 @@
 import random
 import sys
 
-n = random.randrange(6, 10);
-m = random.randrange(2, 6)
+n = random.randrange(6, 100);
+m = random.randrange(n // 4, n)
 
 connections = list();
 
