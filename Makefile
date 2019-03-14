@@ -16,7 +16,7 @@ $(TARGET): $(OBJECTS)
 
 test: $(TARGET)
 	date >> tests.log
-	./network_generator.py | tee test$(shell cat tests.log | wc -l).in | ./$(TARGET) | tee test$(shell cat tests.log | wc -l).out ; cat test$(shell cat tests.log | wc -l).in
+	./network_generator.py | tee test$(shell cat tests.log | wc -l).in | ./$(TARGET) | tee test$(shell cat tests.log | wc -l).out ;# cat test$(shell cat tests.log | wc -l).in
 
 correctness: $(TARGET)
 	for input in test0*.in ; do \
