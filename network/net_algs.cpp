@@ -64,7 +64,7 @@ std::vector<std::vector<int> > dfs_tarjan(
   struct dfs_help dh(net);
 
   ssize_t nnodes = net.n_nodes();
-  for (int i = 0; i < nnodes; i++) {
+  for (int i = nnodes - 1; i >= 0; i--) {
     if (node_colour[i] != colour::white) continue;
     vector<int> tree = {i};
     dfs_tarjan_visit(net, node_colour, dh, tree, i);
@@ -109,7 +109,7 @@ std::vector<std::vector<int>> dfs(
     node_colour[rem] = colour::red;
 
   auto nnodes = net.n_nodes();
-  for (int i = 0; i < nnodes; i++) {
+  for (int i = nnodes - 1; i >= 0; i--) {
     if (node_colour[i] != colour::white) continue;
     vector<int> tree = {i};
     dfs_visit(net, node_colour, tree, i);

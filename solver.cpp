@@ -2,7 +2,6 @@
 #include "net_algs.hpp"
 #include <iostream>
 #include <vector>
-#include <set>
 
 void first_part(const network & net, std::vector<int> &articulation_pts);
 void second_part(const network & net, const std::vector<int> &articulation_pts);
@@ -45,14 +44,12 @@ void first_part(const network & net, std::vector<int> &articulation_pts)
 #endif
   std::cout << '\n';
 
-  std::set<int> max_subnet_ids;
-  for (const auto &tree : forest)
-    max_subnet_ids.insert(*std::max_element(tree.begin(), tree.end()) + 1);
-
-  size_t i = 1;
-  for (const auto &id : max_subnet_ids) {
-    std::cout << id;
-    if (i++ < max_subnet_ids.size()) std::cout << ' ';
+  //std::<int> max_subnet_ids;
+    //max_subnet_ids.insert(*std::max_element(tree.begin(), tree.end()) + 1);
+  for (ssize_t i = forest.size() - 1; i >= 0; i--) {
+    const auto &id = forest[i][0];
+    std::cout << id+1; // get it normalized
+    if (i != 0) std::cout << ' ';
   }
 
 #ifdef DEBUG
