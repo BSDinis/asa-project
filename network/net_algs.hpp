@@ -1,8 +1,5 @@
 #pragma once
 #include "network.hpp"
-std::vector<int> neighbour_routers(
-    const network &net, const int node
-    ) noexcept ;
 
 std::vector<std::vector<int>> dfs(const network &net) noexcept ;
 
