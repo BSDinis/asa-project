@@ -97,7 +97,7 @@ static void dfs_visit(const network &net,
 
 std::vector<std::vector<int>> dfs(
     const network &net,
-    std::vector<int> &removed_pts
+    const std::vector<int> &removed_pts
     ) noexcept
 {
   using colour=network::colour;

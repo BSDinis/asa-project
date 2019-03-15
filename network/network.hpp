@@ -12,7 +12,7 @@ class network {
 
   public:
     enum class colour { white = 0, grey, black, green, red };
-    network() noexcept : network{32} {}
+    network() noexcept {}
     network(int n) noexcept : links(static_cast<size_t>(n)) // reserve space for needed links
     {}
 
