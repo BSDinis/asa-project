@@ -10,7 +10,7 @@ std::vector<std::vector<int>> dfs_tarjan(
 
 std::vector<std::vector<int>> dfs(
     const network &net,
-    std::vector<int> &removed_pts
+    const std::vector<int> &removed_pts
     ) noexcept ;
 
 std::vector<int> neighbour_routers(
