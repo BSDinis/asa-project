@@ -1,6 +1,6 @@
 #include "net_algs.hpp"
 
-std::vector<int> neighbour_routers(const network &net, const int node)
+std::vector<int> neighbour_routers(const network &net, const int node) noexcept
 {
   std::vector<int> res;
   ssize_t nnodes = net.n_nodes();
@@ -19,7 +19,7 @@ struct dfs_help {
   std::vector<int> low;
   std::vector<bool> articulation;
 
-  dfs_help( const network &net ) : time{},
+  dfs_help( const network &net ) noexcept : time{},
     parent(net.n_nodes(), -1),
     discovery(net.n_nodes()),
     low(net.n_nodes()),
@@ -30,12 +30,12 @@ static void dfs_tarjan_visit(const network &net,
     std::vector<network::colour> &node_colour,
     struct dfs_help &dh,
     std::vector<int> &tree,
-    const int init_node);
+    const int init_node) noexcept;
 
 std::vector<std::vector<int>> dfs_tarjan(
     const network &net,
     std::vector<int> &articulation_pts
-    )
+    ) noexcept
 {
   using colour=network::colour;
   using std::vector;
@@ -54,7 +54,7 @@ std::vector<std::vector<int>> dfs_tarjan(
   }
 
   for (int i = 0; i < net.n_nodes(); i++)
-  { 
+  {
     if (dh.articulation[i])
       articulation_pts.push_back(i);
   }
@@ -66,7 +66,7 @@ static void dfs_tarjan_visit(const network &net,
     std::vector<network::colour> &node_colour,
     struct dfs_help &dh,
     std::vector<int> &tree,
-    const int init_node)
+    const int init_node) noexcept
 {
   using colour=network::colour;
   using std::vector;
@@ -91,19 +91,19 @@ static void dfs_tarjan_visit(const network &net,
         dh.articulation[init_node] = true;
     }
     else if ( adj_id != dh.parent[init_node] && dh.discovery[adj_id] < dh.low[init_node] )
-        dh.low[init_node] = dh.discovery[adj_id];  
+        dh.low[init_node] = dh.discovery[adj_id];
   }
 }
 /*------------------------------------------------------*/
 static void dfs_visit(const network &net,
     std::vector<network::colour> &node_colour,
     std::vector<int> &tree,
-    const int init_node);
+    const int init_node) noexcept;
 
 std::vector<std::vector<int>> dfs(
     const network &net,
     std::vector<int> &removed_pts
-    )
+    ) noexcept
 {
   using colour=network::colour;
   using std::vector;
@@ -127,7 +127,7 @@ std::vector<std::vector<int>> dfs(
 static void dfs_visit(const network &net,
     std::vector<network::colour> &node_colour,
     std::vector<int> &tree,
-    const int init_node)
+    const int init_node) noexcept
 {
   using colour=network::colour;
   using std::vector;

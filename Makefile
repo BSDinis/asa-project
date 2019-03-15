@@ -1,7 +1,7 @@
 CC := g++
 VPATH := .:network
 INCLUDES := -I. -Inetwork
-CXXFLAGS := -Wall -Werror -g -fdiagnostics-color=always $(INCLUDES)
+CXXFLAGS := -O3 --std=c++11 -Wall -Werror -g -fdiagnostics-color=always $(INCLUDES)
 LDFLAGS := -Wall -Werror -fdiagnostics-color=always $(INCLUDES) -L. -L../../graph -L../../network
 
 SOURCES=$(wildcard *.cpp) network.cpp net_algs.cpp
