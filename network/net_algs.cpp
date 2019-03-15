@@ -19,10 +19,10 @@ struct dfs_help {
   std::vector<int> low;
   std::vector<bool> articulation;
 
-  dfs_help( const network &net ) noexcept : time{},
+  dfs_help( const network &net ) noexcept : time{0},
     parent(net.n_nodes(), -1),
-    discovery(net.n_nodes()),
-    low(net.n_nodes()),
+    discovery(net.n_nodes(), 0),
+    low(net.n_nodes(), 0),
     articulation(net.n_nodes(), false) {}
 };
 
@@ -32,7 +32,7 @@ static void dfs_tarjan_visit(const network &net,
     std::vector<int> &tree,
     const int init_node) noexcept;
 
-std::vector<std::vector<int>> dfs_tarjan(
+std::vector<std::vector<int> > dfs_tarjan(
     const network &net,
     std::vector<int> &articulation_pts
     ) noexcept
@@ -53,11 +53,9 @@ std::vector<std::vector<int>> dfs_tarjan(
     forest.push_back(tree);
   }
 
-  for (int i = 0; i < net.n_nodes(); i++)
-  {
+  for (int i = 0; i < net.n_nodes(); i++) 
     if (dh.articulation[i])
       articulation_pts.push_back(i);
-  }
 
   return forest;
 }
@@ -80,7 +78,8 @@ static void dfs_tarjan_visit(const network &net,
     if ( node_colour[adj_id] == colour::white ) {
       n_childs++;
       dh.parent[adj_id] = init_node;
-      tree.push_back(adj_id);
+      tree.push_back(adj_id); // add to stack
+
       dfs_tarjan_visit(net, node_colour, dh, tree, adj_id);
 
       if ( dh.low[adj_id] < dh.low[init_node] )

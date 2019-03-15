@@ -6,6 +6,7 @@
 
 int main()
 {
+  std::ios_base::sync_with_stdio(false);
   network net = create_network(std::cin);
 #ifdef DEBUG
   std::cout << net;
