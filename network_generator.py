@@ -3,7 +3,7 @@
 import random
 import sys
 
-n = random.randrange(1<<12, 1<<15);
+n = random.randrange(1<<10, 1<<15);
 m = random.randrange(n // 4, n)
 
 connections = list();

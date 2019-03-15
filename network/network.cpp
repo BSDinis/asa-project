@@ -1,13 +1,13 @@
 #include "network.hpp"
 
-bool network::add_link(const int u, const int v)
+bool network::add_link(const int u, const int v) noexcept
 {
   if (u > nnodes || v > nnodes || u == v) return false;
   if (!has_link(u, v)) nlinks++;
   return links[link_pos(u, v)] = true;
 }
 
-bool network::rem_link(const int u, const int v)
+bool network::rem_link(const int u, const int v) noexcept
 {
   if (u > nnodes || v > nnodes || u == v) return false;
   if (has_link(u, v)) nlinks--;
@@ -15,7 +15,7 @@ bool network::rem_link(const int u, const int v)
   return true;
 }
 
-int network::add_node()
+int network::add_node() noexcept
 {
   nnodes++;
   links.reserve(nnodes * (nnodes - 1) / 2);
@@ -23,7 +23,7 @@ int network::add_node()
   return nnodes - 1;
 }
 
-std::ostream & operator<<(std::ostream &os, const network &n)
+std::ostream & operator<<(std::ostream &os, const network &n) noexcept
 {
   const ssize_t nnodes = n.n_nodes();
   ssize_t lineno = 1;
@@ -35,13 +35,13 @@ std::ostream & operator<<(std::ostream &os, const network &n)
   return os << nnodes << " nodes\n" << n.n_links() << " links\n";
 }
 
-network create_network(const std::string &filename)
+network create_network(const std::string &filename) noexcept
 {
   std::ifstream in{filename};
   return create_network(in);
 }
 
-network create_network(std::istream &in)
+network create_network(std::istream &in) noexcept
 {
   ssize_t n, m;
   if (!(in >> n)) {

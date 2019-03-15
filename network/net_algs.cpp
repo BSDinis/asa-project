@@ -1,6 +1,6 @@
 #include "net_algs.hpp"
 
-std::vector<int> neighbour_routers(const network &net, const int node)
+std::vector<int> neighbour_routers(const network &net, const int node) noexcept
 {
   std::vector<int> res;
   ssize_t nnodes = net.n_nodes();
@@ -19,7 +19,7 @@ struct dfs_help {
   std::vector<int> low;
   std::vector<bool> articulation;
 
-  dfs_help( const network &net ) : time{1},
+  dfs_help( const network &net ) noexcept : time{0},
     parent(net.n_nodes(), -1),
     discovery(net.n_nodes(), 0),
     low(net.n_nodes(), 0),
@@ -30,12 +30,12 @@ static void dfs_tarjan_visit(const network &net,
     std::vector<network::colour> &node_colour,
     struct dfs_help &dh,
     std::vector<int> &tree,
-    const int init_node);
+    const int init_node) noexcept;
 
 std::vector<std::vector<int> > dfs_tarjan(
     const network &net,
     std::vector<int> &articulation_pts
-    )
+    ) noexcept
 {
   using colour=network::colour;
   using std::vector;
@@ -53,7 +53,7 @@ std::vector<std::vector<int> > dfs_tarjan(
     forest.push_back(tree);
   }
 
-  for (int i = 0; i < net.n_nodes(); i++)
+  for (int i = 0; i < net.n_nodes(); i++) 
     if (dh.articulation[i])
       articulation_pts.push_back(i);
 
@@ -64,7 +64,7 @@ static void dfs_tarjan_visit(const network &net,
     std::vector<network::colour> &node_colour,
     struct dfs_help &dh,
     std::vector<int> &tree,
-    const int init_node)
+    const int init_node) noexcept
 {
   using colour=network::colour;
   using std::vector;
@@ -97,12 +97,12 @@ static void dfs_tarjan_visit(const network &net,
 static void dfs_visit(const network &net,
     std::vector<network::colour> &node_colour,
     std::vector<int> &tree,
-    const int init_node);
+    const int init_node) noexcept;
 
 std::vector<std::vector<int>> dfs(
     const network &net,
     std::vector<int> &removed_pts
-    )
+    ) noexcept
 {
   using colour=network::colour;
   using std::vector;
@@ -126,7 +126,7 @@ std::vector<std::vector<int>> dfs(
 static void dfs_visit(const network &net,
     std::vector<network::colour> &node_colour,
     std::vector<int> &tree,
-    const int init_node)
+    const int init_node) noexcept
 {
   using colour=network::colour;
   using std::vector;
