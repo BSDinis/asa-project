@@ -1,4 +1,4 @@
-#iclude "network.hpp"
+#include "network.hpp"
 #include "net_algs.hpp"
 #include <iostream>
 #include <vector>
