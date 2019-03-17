@@ -1,4 +1,4 @@
-#include "network.hpp"
+#iclude "network.hpp"
 #include "net_algs.hpp"
 #include <iostream>
 #include <vector>
@@ -22,8 +22,7 @@ int main()
 
 void second_part(const network & net, const std::vector<int> &articulation_pts)
 {
-  
-  std::cout << dfs(net, articulation_pts);;
+  std::cout << dfs(net, articulation_pts);
 #ifdef DEBUG
   std::cout << " [rem sub net]";
 #endif
@@ -39,8 +38,6 @@ void first_part(const network & net, std::vector<int> &articulation_pts)
 #endif
   std::cout << '\n';
 
-  //std::<int> max_subnet_ids;
-    //max_subnet_ids.insert(*std::max_element(tree.begin(), tree.end()) + 1);
   for (ssize_t i = ids.size() - 1; i >= 0; i--) {
     const auto &id = ids[i];
     std::cout << id+1; // get it normalized

@@ -33,7 +33,6 @@ static void dfs_tarjan_visit(
     if ( node_colour[adj_id] == colour::white ) {
       n_childs++;
       dh.parent[adj_id] = init_node;
-
       dfs_tarjan_visit(net, node_colour, dh, adj_id);
 
       if ( dh.low[adj_id] < dh.low[init_node] )
@@ -64,7 +63,7 @@ std::vector<int> dfs_tarjan(
   ssize_t nnodes = net.n_nodes();
   for (int i = nnodes - 1; i >= 0; i--) {
     if (node_colour[i] != colour::white) continue;
-    ids.push_back(i);
+    ids.push_back(i); // guaranteed to be the highest id
     dfs_tarjan_visit(net, node_colour, dh, i);
   }
 
@@ -77,7 +76,7 @@ std::vector<int> dfs_tarjan(
 
 static void dfs_visit(const network &net,
     std::vector<network::colour> &node_colour,
-    int* n_nodes,
+    int &n_nodes,
     const int init_node) noexcept
 {
   using colour=network::colour;
@@ -86,7 +85,7 @@ static void dfs_visit(const network &net,
   const auto & adjacents = net.neighbours(init_node);
   for (const auto & adj_id : adjacents) {
     if ( node_colour[adj_id] == colour::white ) {
-      ++*n_nodes;
+      ++n_nodes;
       dfs_visit(net, node_colour, n_nodes, adj_id);
     }
   }
@@ -104,13 +103,13 @@ int dfs(
   vector<colour> node_colour(net.n_nodes(), colour::white);
 
   for ( const auto & rem : removed_pts) // dfs ignores these nodes
-    node_colour[rem] = colour::red;
+    node_colour[rem] = colour::red; // FIXME, this could be merged with the other cycle
 
   auto nnodes = net.n_nodes();
   for (int i = nnodes - 1; i >= 0; i--) {
     if (node_colour[i] != colour::white) continue;
     int n_nodes = 1;
-    dfs_visit(net, node_colour, &n_nodes, i);
+    dfs_visit(net, node_colour, n_nodes, i);
     if (n_nodes > big_subnet)
       big_subnet = n_nodes;
   }
