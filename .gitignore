@@ -8,3 +8,4 @@ test/net_basic_func/net_basic_func
 test/input/input_test
 solver
 test*.*
+gerador
