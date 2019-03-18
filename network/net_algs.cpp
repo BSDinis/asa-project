@@ -2,10 +2,10 @@
 
 struct dfs_help {
   int time, max_sub_rem;
-  std::vector<int> parent;
-  std::vector<int> discovery;
-  std::vector<int> low;
-  std::vector<int> rem_subnet_size;
+  std::vector<int> parent; // id of the parents
+  std::vector<int> discovery; // time of discovery
+  std::vector<int> low; // lower time of the component
+  std::vector<int> rem_subnet_size; // size of the component of the subnet formed by descendants until articulation pt
   std::vector<bool> articulation;
 
   dfs_help( const network &net ) noexcept : time{0}, max_sub_rem{0},
@@ -15,6 +15,16 @@ struct dfs_help {
     rem_subnet_size(net.n_nodes(),0),
     articulation(net.n_nodes(), false) {}
 };
+
+static inline bool is_articulation_point(
+    const struct dfs_help &dh,
+    const int node, const int n_visited,
+    const int adj)
+{
+  return dh.articulation[node]
+    || ( dh.parent[node] < 0 && n_visited >= 2 )
+    || ( dh.parent[node] >= 0 && dh.low[adj] >= dh.discovery[node]);
+}
 
 static void dfs_tarjan_visit(
     const network &net,
@@ -38,25 +48,24 @@ static void dfs_tarjan_visit(
       dh.parent[adj_id] = init_node;
       dfs_tarjan_visit(net, node_colour, dh, adj_id);
 
-      if (!dh.articulation[init_node])
-        dh.rem_subnet_size[init_node] += dh.rem_subnet_size[adj_id];
-      else if ( node_colour[adj_id] != colour::red )
-        node_colour[adj_id] = colour::green;
-
-      if ( dh.low[adj_id] < dh.low[init_node] )
-        dh.low[init_node] = dh.low[adj_id];
-
-      if ( (dh.parent[init_node] <  0 && n_childs >= 2) ||
-           (dh.parent[init_node] >= 0 && dh.low[adj_id] >= dh.discovery[init_node]) ) {
+      if ( is_articulation_point(dh, node, n_childs, adj_id) ) {
         dh.articulation[init_node] = true;
         dh.rem_subnet_size[init_node] = 0;
         if ( dh.rem_subnet_size[adj_id] > dh.max_sub_rem )
           dh.max_sub_rem = dh.rem_subnet_size[adj_id];
+        if ( node_colour[adj_id] != colour::red )
+          node_colour[adj_id] = colour::green;
       }
+      else
+        dh.rem_subnet_size[init_node] += dh.rem_subnet_size[adj_id];
+
+      if ( dh.low[adj_id] < dh.low[init_node] )
+        dh.low[init_node] = dh.low[adj_id];
+
     }
     else if ( adj_id != dh.parent[init_node] && dh.discovery[adj_id] < dh.low[init_node] )
       dh.low[init_node] = dh.discovery[adj_id];
-    
+
     if ( node_colour[adj_id] == colour::green ){
       dh.rem_subnet_size[init_node] += dh.rem_subnet_size[adj_id];
       node_colour[adj_id] = colour::red;
