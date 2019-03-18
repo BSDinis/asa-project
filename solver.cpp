@@ -7,7 +7,7 @@ int main()
 {
   const auto &net = create_network(std::cin);
 #ifdef DEBUG
-  std::cout << net;
+  std::clog << net;
 #endif
 
   int n_articulation_pts=0;
@@ -16,7 +16,7 @@ int main()
   const auto ids = dfs_tarjan(net, n_articulation_pts, max);
   std::cout << ids.size();
 #ifdef DEBUG
-  std::cout << " [number of subnets]";
+  std::clog << " [number of subnets]";
 #endif
   std::cout << '\n';
 
@@ -27,19 +27,19 @@ int main()
   }
 
 #ifdef DEBUG
-  std::cout << " [sub net ids]";
+  std::clog << " [sub net ids]";
 #endif
   std::cout << '\n';
 
   std::cout << n_articulation_pts;
 #ifdef DEBUG
-  std::cout << " [number articulation_pts]";
+  std::clog << " [number articulation_pts]";
 #endif
   std::cout << '\n';
 
   std::cout << max;
 #ifdef DEBUG
-  std::cout << " [rem sub net]";
+  std::clog << " [rem sub net]";
 #endif
   std::cout << "\n";
 

@@ -5,14 +5,14 @@ struct dfs_help {
   std::vector<int> parent; // id of the parents
   std::vector<int> discovery; // time of discovery
   std::vector<int> low; // lower time of the component
-  std::vector<int> rem_subnet_size; // size of the component of the subnet formed by descendants until articulation pt
+  std::vector<int> n_descendant_nodes; // size of the component of the subnet formed by descendants until articulation pt
   std::vector<bool> articulation;
 
   dfs_help( const network &net ) noexcept : time{0}, max_sub_rem{0},
     parent(net.n_nodes(), -1),
     discovery(net.n_nodes(), 0),
     low(net.n_nodes(), 0),
-    rem_subnet_size(net.n_nodes(),0),
+    n_descendant_nodes(net.n_nodes(),0),
     articulation(net.n_nodes(), false) {}
 };
 
@@ -38,38 +38,42 @@ static void dfs_tarjan_visit(
   node_colour[init_node] = colour::grey;
   dh.discovery[init_node] = dh.low[init_node] = ++dh.time;
   int n_childs = 0;
-  dh.rem_subnet_size[init_node]++;
+
+  dh.n_descendant_nodes[init_node] = 1;
+  dh.max_sub_rem = std::max(dh.max_sub_rem, dh.n_descendant_nodes[init_node]);
 
   const auto & adjacents = net.neighbours(init_node);
-
   for (const auto & adj_id : adjacents) {
     if ( node_colour[adj_id] == colour::white ) {
+#ifdef DEBUG
+      std::clog << init_node+1 << " found " << adj_id+1 << '\n';
+#endif
       n_childs++;
       dh.parent[adj_id] = init_node;
       dfs_tarjan_visit(net, node_colour, dh, adj_id);
 
-      if ( is_articulation_point(dh, node, n_childs, adj_id) ) {
+      if ( is_articulation_point(dh, init_node, n_childs, adj_id) ) {
         dh.articulation[init_node] = true;
-        dh.rem_subnet_size[init_node] = 0;
-        if ( dh.rem_subnet_size[adj_id] > dh.max_sub_rem )
-          dh.max_sub_rem = dh.rem_subnet_size[adj_id];
+        dh.n_descendant_nodes[init_node] = 0;
         if ( node_colour[adj_id] != colour::red )
           node_colour[adj_id] = colour::green;
       }
       else
-        dh.rem_subnet_size[init_node] += dh.rem_subnet_size[adj_id];
+        dh.n_descendant_nodes[init_node] += dh.n_descendant_nodes[adj_id];
 
       if ( dh.low[adj_id] < dh.low[init_node] )
         dh.low[init_node] = dh.low[adj_id];
-
     }
-    else if ( adj_id != dh.parent[init_node] && dh.discovery[adj_id] < dh.low[init_node] )
-      dh.low[init_node] = dh.discovery[adj_id];
-
-    if ( node_colour[adj_id] == colour::green ){
-      dh.rem_subnet_size[init_node] += dh.rem_subnet_size[adj_id];
-      node_colour[adj_id] = colour::red;
+    else {
+      if ( adj_id != dh.parent[init_node] && dh.discovery[adj_id] < dh.low[init_node] )
+        dh.low[init_node] = dh.discovery[adj_id];
+      if ( node_colour[adj_id] == colour::green ){
+        dh.n_descendant_nodes[init_node] += dh.n_descendant_nodes[adj_id];
+        node_colour[adj_id] = colour::red;
+      }
     }
+
+    dh.max_sub_rem = std::max( dh.max_sub_rem, dh.n_descendant_nodes[adj_id]);
   }
 }
 
@@ -94,8 +98,8 @@ std::vector<int> dfs_tarjan(
     ids.push_back(i); // guaranteed to be the highest id
 
     dfs_tarjan_visit(net, node_colour, dh, i);
-    if ( dh.rem_subnet_size[i] > dh.max_sub_rem )
-      dh.max_sub_rem = dh.rem_subnet_size[i];
+    if ( dh.n_descendant_nodes[i] > dh.max_sub_rem )
+      dh.max_sub_rem = dh.n_descendant_nodes[i];
   }
 
   max = dh.max_sub_rem;

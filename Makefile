@@ -20,9 +20,7 @@ correctness: $(TARGET)
 	@for input in ./test0*.in ; do \
 	  ./$(TARGET) < $$input > $${input%.in}.outhyp ; \
 	  echo "./$(TARGET) < $$input > $${input%.in}.outhyp" ; \
-	  done
-	@for output in ./test0*.out ; do \
-	  diff $$output $${output%.out}.outhyp ; \
+	  diff $${input%.in}.out $${input%.in}.outhyp ; \
 	  done
 
 
