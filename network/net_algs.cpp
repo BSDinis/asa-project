@@ -18,7 +18,6 @@ static void dfs_tarjan_visit(
     const network &net,
     std::vector<network::colour> &node_colour,
     struct dfs_help &dh,
-    std::vector<int> &tree,
     const int init_node) noexcept
 {
   using colour=network::colour;
@@ -34,9 +33,7 @@ static void dfs_tarjan_visit(
     if ( node_colour[adj_id] == colour::white ) {
       n_childs++;
       dh.parent[adj_id] = init_node;
-      tree.push_back(adj_id); // add to stack
-
-      dfs_tarjan_visit(net, node_colour, dh, tree, adj_id);
+      dfs_tarjan_visit(net, node_colour, dh, adj_id);
 
       if ( dh.low[adj_id] < dh.low[init_node] )
         dh.low[init_node] = dh.low[adj_id];
@@ -50,7 +47,7 @@ static void dfs_tarjan_visit(
   }
 }
 
-std::vector<std::vector<int> > dfs_tarjan(
+std::vector<int> dfs_tarjan(
     const network &net,
     std::vector<int> &articulation_pts
     ) noexcept
@@ -58,7 +55,7 @@ std::vector<std::vector<int> > dfs_tarjan(
   using colour=network::colour;
   using std::vector;
 
-  vector<vector<int>> forest;
+  vector<int> ids;
   vector<colour> node_colour(net.n_nodes(), colour::white);
 
   struct dfs_help dh(net);
@@ -66,21 +63,20 @@ std::vector<std::vector<int> > dfs_tarjan(
   ssize_t nnodes = net.n_nodes();
   for (int i = nnodes - 1; i >= 0; i--) {
     if (node_colour[i] != colour::white) continue;
-    vector<int> tree = {i};
-    dfs_tarjan_visit(net, node_colour, dh, tree, i);
-    forest.push_back(tree);
+    ids.push_back(i); // guaranteed to be the highest id
+    dfs_tarjan_visit(net, node_colour, dh, i);
   }
 
   for (int i = 0; i < net.n_nodes(); i++)
     if (dh.articulation[i])
       articulation_pts.push_back(i);
 
-  return forest;
+  return ids;
 }
 
 static void dfs_visit(const network &net,
     std::vector<network::colour> &node_colour,
-    std::vector<int> &tree,
+    int &n_nodes,
     const int init_node) noexcept
 {
   using colour=network::colour;
@@ -89,33 +85,35 @@ static void dfs_visit(const network &net,
   const auto & adjacents = net.neighbours(init_node);
   for (const auto & adj_id : adjacents) {
     if ( node_colour[adj_id] == colour::white ) {
-      tree.push_back(adj_id);
-      dfs_visit(net, node_colour, tree, adj_id);
+      ++n_nodes;
+      dfs_visit(net, node_colour, n_nodes, adj_id);
     }
   }
 }
 
-std::vector<std::vector<int>> dfs(
+int dfs(
     const network &net,
     const std::vector<int> &removed_pts
     ) noexcept
 {
   using colour=network::colour;
   using std::vector;
-  vector<vector<int>> forest;
+
+  int big_subnet = 0;
   vector<colour> node_colour(net.n_nodes(), colour::white);
 
   for ( const auto & rem : removed_pts) // dfs ignores these nodes
-    node_colour[rem] = colour::red;
+    node_colour[rem] = colour::red; // FIXME, this could be merged with the other cycle
 
   auto nnodes = net.n_nodes();
   for (int i = nnodes - 1; i >= 0; i--) {
     if (node_colour[i] != colour::white) continue;
-    vector<int> tree = {i};
-    dfs_visit(net, node_colour, tree, i);
-    forest.push_back(tree);
+    int n_nodes = 1;
+    dfs_visit(net, node_colour, n_nodes, i);
+    if (n_nodes > big_subnet)
+      big_subnet = n_nodes;
   }
 
-  return forest;
+  return big_subnet;
 }
 
