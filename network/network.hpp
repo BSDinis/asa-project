@@ -10,7 +10,7 @@ class network {
   std::vector<std::vector<int>> links;
 
   public:
-    enum class colour { white = 0, grey, black, green, red };
+    enum class colour { white = 0, grey, green, red };
     network() noexcept {}
     network(int n) noexcept : links(static_cast<size_t>(n)) // reserve space for needed links
     {}

@@ -3,8 +3,6 @@
 #include <iostream>
 #include <vector>
 
-void first_part(const network & net, std::vector<int> &articulation_pts);
-void second_part(const network & net, const std::vector<int> &articulation_pts);
 int main()
 {
   const auto &net = create_network(std::cin);
@@ -12,26 +10,10 @@ int main()
   std::cout << net;
 #endif
 
-  std::vector<int> articulation_pts;
+  int n_articulation_pts=0;
+  int max = 0;
 
-  first_part(net, articulation_pts);
-  second_part(net, articulation_pts);
-
-  return 0;
-}
-
-void second_part(const network & net, const std::vector<int> &articulation_pts)
-{
-  std::cout << dfs(net, articulation_pts);
-#ifdef DEBUG
-  std::cout << " [rem sub net]";
-#endif
-  std::cout << "\n";
-}
-
-void first_part(const network & net, std::vector<int> &articulation_pts)
-{
-  const auto ids = dfs_tarjan(net, articulation_pts);
+  const auto ids = dfs_tarjan(net, n_articulation_pts, max);
   std::cout << ids.size();
 #ifdef DEBUG
   std::cout << " [number of subnets]";
@@ -49,9 +31,17 @@ void first_part(const network & net, std::vector<int> &articulation_pts)
 #endif
   std::cout << '\n';
 
-  std::cout << articulation_pts.size();
+  std::cout << n_articulation_pts;
 #ifdef DEBUG
   std::cout << " [number articulation_pts]";
 #endif
   std::cout << '\n';
+
+  std::cout << max;
+#ifdef DEBUG
+  std::cout << " [rem sub net]";
+#endif
+  std::cout << "\n";
+
+  return 0;
 }
