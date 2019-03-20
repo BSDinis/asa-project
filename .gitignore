@@ -9,3 +9,5 @@ test/input/input_test
 solver
 test*.*
 gerador
+*.aux
+*.log

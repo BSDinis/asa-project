@@ -1,4 +1,4 @@
-\documentclass[a4paper, 12pt, conference]{ieeeconf}      % Use this line for a4 paper
+\documentclass[a4paper, 12pt, conference, portuguese]{ieeeconf}      % Use this line for a4 paper
 
 \IEEEoverridecommandlockouts                              % This command is only needed if
 \overrideIEEEmargins                                      % Needed to meet printer requirements.
@@ -17,8 +17,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[portuguese]{babel}
 
-\title{\LARGE \bf
-Relatório do 1º Projecto \\ Análise e Síntese de Algoritmos
+\title{{\LARGE \bf Cálculo de Sub-Redes e Pontos de Articulação}
+\large{Relatório do 1º Projecto - Análise e Síntese de Algoritmos}
 }
 
 
@@ -34,23 +34,51 @@ Relatório do 1º Projecto \\ Análise e Síntese de Algoritmos
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
-
-
-
+  Uma rede deve ser desenhada de forma a que seja resiliente a falhas de
+  componentes individuais, permitindo ao seu utilizador uma utilização contínua
+  do sistema. A existência de pontos únicos de falha\footnote{\textit{Single
+  Points of Failure} em inglês} compromete esta resiliência, impedindo que a
+  rede consiga escalar, face ao tráfego. Neste relatório, expomos uma
+  metodologia para automaticamente verificar se uma rede é resiliente e quantas
+  sub-redes estão presentes na mesma. Este trabalho foi realizado no contexto da
+  Unidade Curricular de Análise e Síntese de Algoritmos, no ano lectivo de
+  2018-2019.
 \end{abstract}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{INTRODUÇÃO}
+\section{INTRODUÇÃO}\label{intro}
+Uma rede deve ser capaz de tolerar falhas individuais e independentes dos seus
+componentes. Só assim é que é possível que um serviço que a utilize escale com o
+tráfego. Se a rede tiver pontos que, ao falharem, causarem que uma sub-rede
+(conjunto de roteadores tal que é possível encontrar um caminho, e
+consequentemente enviar uma mensagem de um para o o outro, entre qualquer par)
+se divida em várias então não se pode considerar que a rede tem uma topologia
+resiliente. Note-se que, caso dois roteadores, para se ligarem um ao outro,
+tiverem de se ligar a um destes pontos únicos de falha, significa que qualquer
+caminho que ligue estes dois roteadores inclui necessariamente este ponto único
+de falha, aumentando então o volume da carga exercida no mesmo.
 
+É também útil conseguir saber quais são as sub-redes existentes numa dada
+topologia de roteadores, e quantas existiriam caso fossem retirados os pontos
+únicos de falha.
 
-\section{DESCRIÇÃO DA SOLUÇÃO}
+Neste relatório, apresentaremos a nossa solução para este problema. A estrutura
+do relatório é a seguinte. Em II,
+fazemos um mapeamento do problema para um problema de grafos e
+expomos a nossa solução. Em III, fazemos uma análise teórica do
+algoritmo empregue, nomeadamente em termos de complexidade. Em
+IV apresentamos os resultados da nossa avaliação experimental e
+em IV comentamos a correspondência entre os resultados
+experimentais e os valores teóricos.
 
-\section{ANÁLISE TEÓRICA}
+\section{DESCRIÇÃO DA SOLUÇÃO}\label{sol}
 
-\section{AVALIAÇÃO EXPERIMENTAL}
+\section{ANÁLISE TEÓRICA}\label{theoric}
 
-\section{CONCLUSÃO}
+\section{AVALIAÇÃO EXPERIMENTAL}\label{experimental}
+
+\section{CONCLUSÃO}\label{conclusion}
 
 \begin{thebibliography}{99}
 
