@@ -26,7 +26,9 @@ inline bool is_articulation_point(
     const int n_children,
     const struct dfs_help & dh
     )
-{ return dh.articulation[node] || (is_root(node, dh) && n_children >= 2) || (!is_root(node, dh) && dh.low[adj] >= dh.discovery[node]); }
+{ return dh.articulation[node] ||
+  (is_root(node, dh) && n_children >= 2) ||
+    (!is_root(node, dh) && dh.low[adj] >= dh.discovery[node]); }
 
 static void dfs_tarjan_visit(
     const network &net,
