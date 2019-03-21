@@ -14,6 +14,20 @@ struct dfs_help {
     articulation(net.n_nodes(), false) {}
 };
 
+inline bool is_root(
+    const int node,
+    const dfs_help & dh
+    )
+{ return dh.parent[node] < 0; }
+
+inline bool is_articulation_point(
+    const int node,
+    const int adj,
+    const int n_children,
+    const struct dfs_help & dh
+    )
+{ return dh.articulation[node] || (is_root(node, dh) && n_children >= 2) || (!is_root(node, dh) && dh.low[adj] >= dh.discovery[node]); }
+
 static void dfs_tarjan_visit(
     const network &net,
     std::vector<network::colour> &node_colour,
@@ -38,8 +52,7 @@ static void dfs_tarjan_visit(
       if ( dh.low[adj_id] < dh.low[init_node] )
         dh.low[init_node] = dh.low[adj_id];
 
-      if ( (dh.parent[init_node] <  0 && n_childs >= 2) ||
-           (dh.parent[init_node] >= 0 && dh.low[adj_id] >= dh.discovery[init_node]) )
+      if ( is_articulation_point(init_node, adj_id, n_childs, dh) )
         dh.articulation[init_node] = true;
     }
     else if ( adj_id != dh.parent[init_node] && dh.discovery[adj_id] < dh.low[init_node] )
