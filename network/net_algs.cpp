@@ -14,13 +14,13 @@ struct dfs_help {
     articulation(net.n_nodes(), false) {}
 };
 
-inline bool is_root(
+static inline bool is_root(
     const int node,
     const dfs_help & dh
     )
 { return dh.parent[node] < 0; }
 
-inline bool is_articulation_point(
+static inline bool is_articulation_point(
     const int node,
     const int adj,
     const int n_children,

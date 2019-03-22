@@ -10,7 +10,7 @@ int main()
   const auto &net = create_network(std::cin);
   std::vector<int> articulation_pts;
   first_part(net, articulation_pts); // compute articulation pts
-  std::cout << dfs(net, articulation_pts) std::cout << "\n"; // remove articulation pts and calc max subnet
+  std::cout << dfs(net, articulation_pts) << '\n'; // remove articulation pts and calc max subnet
   return 0;
 }
 
